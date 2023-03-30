@@ -17,21 +17,6 @@ technologies: # Ref: https://docs.stackspot.com/docs/create-stacks/yaml-files/ya
   - "Typescript"
 types:
   - app
-inputs:
-  - label: Input Example
-    type: text
-    name: example
-    default: any text
-  # - label: Example of number
-  #   type: int
-  #   name: any_number
-  #   default: "10"
-  # - label: Example of list
-  #   type: multiselect
-  #   name: any_list
-  #   items:
-  #     - item1
-  #     - item2
 
 hooks:
   - type: run
@@ -43,3 +28,34 @@ hooks:
     trigger: after-render
     mac:
       - npx pod-install ios
+  - type: edit
+    trigger: after-render
+    path: src/index.js
+    changes:
+      # - insert:
+      #     line: 0
+      #     value: |
+      #       {% raw %}
+      #       Teste
+      #       {% endraw %}
+      - search:
+          string: "} from 'react-native';"
+          insert-after:
+            value: |
+              {% raw %}
+              import { NavigationContainer } from '@react-navigation/native';
+              {% endraw %}
+          when:
+            not-exists: "import { NavigationContainer } from '@react-navigation/native';"
+      - search:
+          string: "return ("
+          insert-after:
+            value: "    <NavigationContainer>"
+          when:
+            not-exists: "<NavigationContainer>"
+      - search:
+          string: "</View>"
+          insert-after:
+            value: "    </NavigationContainer>"
+          when:
+            not-exists: "</NavigationContainer>"
