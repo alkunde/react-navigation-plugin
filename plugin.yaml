@@ -4,8 +4,9 @@ display-name: React Navigation
 picture: plugin.png
 category: frontend # Ref: https://docs.stackspot.com/docs/create-stacks/yaml-files/plugin/#category
 compatibility:
-  - java
-  - spring
+  - react native
+  - typescript
+  - javascript
 about: docs/about.md
 usage: docs/usage.md
 use-case: docs/use-case.md
@@ -21,13 +22,24 @@ inputs:
     type: text
     name: example
     default: any text
-  - label: Example of number
-    type: int
-    name: any_number
-    default: "10"
-  - label: Example of list
-    type: multiselect
-    name: any_list
-    items:
-      - item1
-      - item2
+  # - label: Example of number
+  #   type: int
+  #   name: any_number
+  #   default: "10"
+  # - label: Example of list
+  #   type: multiselect
+  #   name: any_list
+  #   items:
+  #     - item1
+  #     - item2
+
+hooks:
+  - type: run
+    trigger: before-render
+    commands:
+      - yarn add @react-navigation/native
+      - npx expo install react-native-screens react-native-safe-area-context
+  - type: run
+    trigger: after-render
+    mac:
+      - npx pod-install ios
