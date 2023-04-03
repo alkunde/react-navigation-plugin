@@ -21,13 +21,13 @@ types:
 hooks:
   - type: run
     trigger: before-render
-    commands:
+    mac:
       - yarn add @react-navigation/native
       - npx expo install react-native-screens react-native-safe-area-context
-  - type: run
-    trigger: after-render
-    mac:
       - npx pod-install ios
+    windows:
+      - cmd /C yarn add @react-navigation/native
+      - cmd /C npx expo install react-native-screens react-native-safe-area-context
   - type: edit
     trigger: after-render
     path: src/index.js
